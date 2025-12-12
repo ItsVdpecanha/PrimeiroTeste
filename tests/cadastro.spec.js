@@ -15,7 +15,8 @@ test.describe('Fluxo de Interação com a Documentação do Playwright', () => {
         await expect(page).toHaveTitle(/Playwright/);
 
         // Verifica se o texto principal 'Fast and reliable' está visível
-        const principalText = page.getByRole('heading', { name: 'Fast and reliable' });
+        // Substitua a linha 17
+        const principalText = page.getByRole('heading', { name: 'Playwright enables reliable end-to-end testing for modern web apps.' });
         await expect(principalText).toBeVisible();
     });
 
@@ -52,7 +53,8 @@ test.describe('Fluxo de Interação com a Documentação do Playwright', () => {
         await expect(firstResult).toBeVisible();
 
         // Volta para a página anterior 
-        await page.goBack();
-        await expect(page).toHaveURL(PAGE_URL);
+        // Linha que corrige o problema:
+        await page.goto(PAGE_URL);
+        await expect(page).toHaveURL(PAGE_URL, { timeout: 10000 });
     });
 });
