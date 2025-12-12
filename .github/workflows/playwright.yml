@@ -9,29 +9,36 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-        
-    # --- CORREÇÃO DE WORKING DIRECTORY INICIADA AQUI ---
-      
-    - name: Install dependencies
-      run: npm ci
-      working-directory: ./PrimeiroTesteOficial # <-- Caminho relativo para a subpasta
-      
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-      working-directory: ./PrimeiroTesteOficial # <-- Caminho relativo para a subpasta
-      
-    - name: Run Playwright tests
-      run: npx playwright test
-      working-directory: ./PrimeiroTesteOficial # <-- Caminho relativo para a subpasta
-      
-    - uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: playwright-report
-        # Caminho do relatório ajustado para a subpasta
-        path: PrimeiroTeste/playwright-report/
-        retention-days: 30
+      - uses: actions/checkout@v4
+        # Este passo clona o seu repositório
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          
+      # 1. INSTALAR DEPENDÊNCIAS
+      - name: Install dependencies
+        run: npm ci
+        # Ajustado para incluir as duas pastas
+        working-directory: ./PrimeiroTestePlaywright/PrimeiroTesteOficial 
+          
+      # 2. INSTALAR BROWSERS DO PLAYWRIGHT
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+        # Ajustado para incluir as duas pastas
+        working-directory: ./PrimeiroTestePlaywright/PrimeiroTesteOficial 
+          
+      # 3. EXECUTAR TESTES
+      - name: Run Playwright tests
+        run: npx playwright test
+        # Ajustado para incluir as duas pastas
+        working-directory: ./PrimeiroTestePlaywright/PrimeiroTesteOficial 
+          
+      # 4. UPLOAD DO RELATÓRIO
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          # O path deve apontar para onde o relatório foi gerado (dentro da pasta de trabalho)
+          path: PrimeiroTestePlaywright/PrimeiroTesteOficial/playwright-report/
+          retention-days: 30
