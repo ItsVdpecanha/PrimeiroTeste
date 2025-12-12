@@ -14,22 +14,24 @@ jobs:
       with:
         node-version: lts/*
         
+    # --- CORREÇÃO DE WORKING DIRECTORY INICIADA AQUI ---
+      
     - name: Install dependencies
       run: npm ci
-      working-directory: PrimeiroTeste 
+      working-directory: ./PrimeiroTeste # <-- Caminho relativo para a subpasta
       
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-      working-directory: PrimeiroTeste 
+      working-directory: ./PrimeiroTeste # <-- Caminho relativo para a subpasta
       
     - name: Run Playwright tests
       run: npx playwright test
-      working-directory: PrimeiroTeste 
+      working-directory: ./PrimeiroTeste # <-- Caminho relativo para a subpasta
       
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: playwright-report
-        # O caminho do relatório deve ser ajustado para a subpasta
-        path: PrimeiroTeste/playwright-report/ 
+        # Caminho do relatório ajustado para a subpasta
+        path: PrimeiroTeste/playwright-report/
         retention-days: 30
